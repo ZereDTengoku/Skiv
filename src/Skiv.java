@@ -21,7 +21,7 @@ public class Skiv extends Core implements KeyListener {
         new Skiv().run();
     }
     
-    //init also call init from superclass
+    //init also call init from superclass (gotta fix this... it's just too messed up for me).
     public void init() {
         super.init();
         Window w = screenManager.getFullScreenWindow();
@@ -29,13 +29,8 @@ public class Skiv extends Core implements KeyListener {
         w.addKeyListener(this);
         loadImages();
     }
-    
-    //load images
-    private void loadImages() {
-        player = new ImageIcon(currentDir +  fileSeparator + "square_blue.png").getImage();
-        enemy = new ImageIcon(currentDir + fileSeparator + "square_red.png").getImage();
-    }
 
+    //draw method called from super class in main loop
     public synchronized void draw(Graphics2D g) {
         Window w = screenManager.getFullScreenWindow();
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
@@ -78,7 +73,8 @@ public class Skiv extends Core implements KeyListener {
             }
             
             //Have you touched the red square?
-            if(sprite.getY() <= enemy.getHeight(null) && (sprite.getX() + sprite.getImage().getWidth(null)) > (screenManager.getWidth() - enemy.getWidth(null))) {
+            if((sprite.getX() + sprite.getImage().getWidth(null)) > (screenManager.getWidth() - enemy.getWidth(null)) 
+                    && sprite.getY() <= enemy.getHeight(null)) {
                 loose = true;
             }
         }
@@ -141,5 +137,11 @@ public class Skiv extends Core implements KeyListener {
     //keyTyped
     public void keyTyped(KeyEvent e) {
         e.consume();
-    } 
+    }
+    
+    //load images
+    private void loadImages() {
+        player = new ImageIcon(currentDir +  fileSeparator + "square_blue.png").getImage();
+        enemy = new ImageIcon(currentDir + fileSeparator + "square_red.png").getImage();
+    }
 }
